@@ -5,6 +5,9 @@ import (
 	"os"
 	"strings"
 	"time"
+
+	"github.com/Frank-Mayer/gopher-lua/shell"
+	"github.com/Frank-Mayer/ohmygosh"
 )
 
 var startedAt time.Time
@@ -79,18 +82,15 @@ func osDiffTime(L *LState) int {
 }
 
 func osExecute(L *LState) int {
-	var procAttr os.ProcAttr
-	procAttr.Files = []*os.File{os.Stdin, os.Stdout, os.Stderr}
-	cmd, args := popenArgs(L.CheckString(1))
-	args = append([]string{cmd}, args...)
-	process, err := os.StartProcess(cmd, args, &procAttr)
-	if err != nil {
-		L.Push(LNumber(1))
+	cmdStr := L.CheckString(1)
+	if ok, err, exitCode := shell.UseSell(cmdStr); ok {
+		if err != nil {
+			L.RaiseError(err.Error())
+		}
+		L.Push(LNumber(exitCode))
 		return 1
 	}
-
-	ps, err := process.Wait()
-	if err != nil || !ps.Success() {
+	if err := ohmygosh.Execute(cmdStr); err != nil {
 		L.Push(LNumber(1))
 		return 1
 	}
