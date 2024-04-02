@@ -981,26 +981,7 @@ func init() {
 						}
 					}
 				} else if lv.Type() == LTTable {
-					// this section is inlined by go-inline
-					// source function is 'func (rg *registry) SetNumber(regi int, vali LNumber) ' in '_state.go'
-					{
-						rg := reg
-						regi := RA
-						vali := LNumber(lv.(*LTable).Len())
-						newSize := regi + 1
-						// this section is inlined by go-inline
-						// source function is 'func (rg *registry) checkSize(requiredSize int) ' in '_state.go'
-						{
-							requiredSize := newSize
-							if requiredSize > cap(rg.array) {
-								rg.resize(requiredSize)
-							}
-						}
-						rg.array[regi] = rg.alloc.LNumber2I(vali)
-						if regi >= rg.top {
-							rg.top = regi + 1
-						}
-					}
+					reg.SetNumber(RA, LNumber(lv.(*LTable).OpLen()))
 				} else {
 					L.RaiseError("__len undefined")
 				}
