@@ -5,12 +5,9 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"os/exec"
 	"syscall"
-
-	"github.com/tsukinoko-kun/ohmygosh"
 )
 
 var ioFuncs = map[string]LGFunction{
@@ -88,7 +85,6 @@ func newFile(L *LState, file *os.File, path string, flag int, perm os.FileMode, 
 
 func newProcess(L *LState, cmd string, writable, readable bool) (*LUserData, error) {
 	ud := L.NewUserData()
-	ohmygosh.Execute()
 	c, args := popenArgs(cmd)
 	pp := exec.Command(c, args...)
 	lfile := &lFile{fp: nil, pp: pp, writer: nil, reader: nil, stdout: nil, closed: false}
@@ -376,7 +372,7 @@ func fileReadAux(L *LState, file *lFile, idx int) int {
 					L.Push(v)
 				case 'a':
 					var buf []byte
-					buf, err = ioutil.ReadAll(file.reader)
+					buf, err = io.ReadAll(file.reader)
 					if err == io.EOF {
 						L.Push(emptyLString)
 						goto normalreturn
@@ -708,7 +704,7 @@ func ioType(L *LState) int {
 }
 
 func ioTmpFile(L *LState) int {
-	file, err := ioutil.TempFile("", "")
+	file, err := os.CreateTemp("", "")
 	if err != nil {
 		L.Push(LNil)
 		L.Push(LString(err.Error()))
