@@ -9,6 +9,8 @@ import (
 	"os"
 	"os/exec"
 	"syscall"
+
+	"github.com/tsukinoko-kun/ohmygosh"
 )
 
 var ioFuncs = map[string]LGFunction{
@@ -86,6 +88,7 @@ func newFile(L *LState, file *os.File, path string, flag int, perm os.FileMode, 
 
 func newProcess(L *LState, cmd string, writable, readable bool) (*LUserData, error) {
 	ud := L.NewUserData()
+	ohmygosh.Execute()
 	c, args := popenArgs(cmd)
 	pp := exec.Command(c, args...)
 	lfile := &lFile{fp: nil, pp: pp, writer: nil, reader: nil, stdout: nil, closed: false}

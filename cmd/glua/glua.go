@@ -3,8 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/Frank-Mayer/gopher-lua/parse"
-	"github.com/Frank-Mayer/gopher-lua"
+	"github.com/tsukinoko-kun/gopher-lua/parse"
+	"github.com/tsukinoko-kun/gopher-lua"
 	"github.com/chzyer/readline"
 	"os"
 	"runtime/pprof"

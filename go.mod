@@ -1,10 +1,10 @@
-module github.com/Frank-Mayer/gopher-lua
+module github.com/tsukinoko-kun/gopher-lua
 
-go 1.22.1
+go 1.22.2
 
 require (
-	github.com/Frank-Mayer/ohmygosh v0.1.1
 	github.com/chzyer/readline v1.5.1
+	github.com/tsukinoko-kun/ohmygosh v0.2.1
 )
 
-require golang.org/x/sys v0.0.0-20220310020820-b874c991c1a5 // indirect
+require golang.org/x/sys v0.19.0 // indirect

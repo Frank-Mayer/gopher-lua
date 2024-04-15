@@ -6,8 +6,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Frank-Mayer/gopher-lua/shell"
-	"github.com/Frank-Mayer/ohmygosh"
+	"github.com/tsukinoko-kun/gopher-lua/shell"
+	"github.com/tsukinoko-kun/ohmygosh"
 )
 
 var startedAt time.Time
