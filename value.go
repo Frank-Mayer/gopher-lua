@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"sync"
 )
 
 type LValueType int
@@ -196,6 +197,7 @@ type LState struct {
 	mainLoop     func(*LState, *callFrame)
 	ctx          context.Context
 	ctxCancelFn  context.CancelFunc
+	bgTasks      *sync.WaitGroup
 }
 
 func (ls *LState) String() string   { return fmt.Sprintf("thread: %p", ls) }

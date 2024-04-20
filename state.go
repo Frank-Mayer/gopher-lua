@@ -678,6 +678,7 @@ func newLState(options Options) *LState {
 		hasErrorFunc: false,
 		mainLoop:     mainLoop,
 		ctx:          nil,
+		bgTasks:      &sync.WaitGroup{},
 	}
 	if options.MinimizeStackMemory {
 		ls.stack = newAutoGrowingCallFrameStack(options.CallStackSize)
@@ -1439,6 +1440,9 @@ func (ls *LState) IsClosed() bool {
 }
 
 func (ls *LState) Close() {
+	if ls.bgTasks != nil {
+		ls.bgTasks.Wait()
+	}
 	atomic.AddInt32(&ls.stop, 1)
 	for _, file := range ls.G.tempFiles {
 		// ignore errors in these operations
